@@ -29,5 +29,6 @@ Route::group(['account'], function () {
     Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('/account/update-profile', [AccountController::class, 'updateProfile'])->name('account.udpateprofile');
+    Route::post('/update-profile-pic', [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
   });
 });
