@@ -20,7 +20,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow py-3">
             <div class="container">
-                <a class="navbar-brand" href="index.html">CareerVibe</a>
+                <a class="navbar-brand"  href="{{route('home')}}">CareerVibe</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-0 ms-sm-0 me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                            <a class="nav-link" aria-current="page" href="{{route('home')}}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
@@ -42,7 +42,7 @@
                         <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}"
                             type="submit">Login</a>
                     @endif
-                    <a class="btn btn-primary" href="post-job.html" type="submit">Post a Job</a>
+                    <a class="btn btn-primary" href="{{route('account.createjob')}}" type="submit">Post a Job</a>
                 </div>
             </div>
         </nav>
@@ -95,27 +95,69 @@
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
-                url: '{{route("account.updateProfilePic")}}',
-                type:'post',
-                data:formData,
-                dataType:'json',
+                url: '{{ route('account.updateProfilePic') }}',
+                type: 'post',
+                data: formData,
+                dataType: 'json',
                 contentType: false,
-                processData:false,
-                success:function(response){
+                processData: false,
+                success: function(response) {
                     console.log(response.status);
-                    
-                    if(response.status == false){
+
+                    if (response.status == false) {
                         var errors = response.errors;
-                      
-                        if(errors.image){
+
+                        if (errors.image) {
                             $("#image-error").html(errors.image);
                         }
-                    }else{
-                        window.location.href = '{{url()->current()}}';
+                    } else {
+                        window.location.href = '{{ url()->current() }}';
                     }
                 }
             });
         })
+        function displayValidationErrors(response) {
+            for (const key in response.errors) {
+                if (response.errors.hasOwnProperty(key)) {
+                    // Select the input field based on the key
+                    const inputElement = $(`#${key}`);
+
+                    // Add the 'is-invalid' class to the input
+                    inputElement.addClass('is-invalid');
+
+                    // Check if the <p> element already exists
+                    let errorMessageElement = inputElement.siblings('p.invalid-feedback');
+
+                    if (errorMessageElement.length === 0) {
+                        // Create the <p> element for the error message if it doesn't exist
+                        errorMessageElement = $('<p></p>').addClass('invalid-feedback');
+
+                        // Append the <p> element after the input field
+                        inputElement.after(errorMessageElement);
+                    }
+
+                    // Set the error message
+                    errorMessageElement.html(response.errors[key].join(", "));
+                }
+            }
+
+            // Add event listener to inputs to clear error when they are corrected
+            $('input.is-invalid').on('input', function() {
+                const inputElement = $(this);
+
+                // Check if the input value is now valid (you can implement your own validation here)
+                if (inputElement.val().trim() !== "") {
+                    // Remove the 'is-invalid' class and the error message
+                    inputElement.removeClass('is-invalid');
+
+                    // Remove the associated error message
+                    const errorMessageElement = inputElement.siblings('p.invalid-feedback');
+                    if (errorMessageElement.length > 0) {
+                        errorMessageElement.removeClass('invalid-feedback').html('');
+                    }
+                }
+            });
+        }
     </script>
     @yield('custom_js')
 </body>

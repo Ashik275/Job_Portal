@@ -30,5 +30,13 @@ Route::group(['account'], function () {
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('/account/update-profile', [AccountController::class, 'updateProfile'])->name('account.udpateprofile');
     Route::post('/update-profile-pic', [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
+    Route::get('/account/create-job', [AccountController::class, 'createjob'])->name('account.createjob');
+    Route::get('/account/edit-job/{jobId}', [AccountController::class, 'editjob'])->name('account.editjob');
+    Route::post('/account/save-job', [AccountController::class, 'saveJob'])->name('account.saveJob');
+    Route::post('/account/edit-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
+    Route::post('/account/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
+
+    Route::get('/account/my-jobs', [AccountController::class, 'myJobs'])->name('account.myJobs');
+
   });
 });
