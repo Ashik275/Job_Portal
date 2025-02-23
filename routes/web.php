@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobsController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');
 
 
 
@@ -37,6 +39,5 @@ Route::group(['account'], function () {
     Route::post('/account/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
 
     Route::get('/account/my-jobs', [AccountController::class, 'myJobs'])->name('account.myJobs');
-
   });
 });
