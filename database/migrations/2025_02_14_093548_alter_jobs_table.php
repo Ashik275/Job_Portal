@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('jobs', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('job_type_id');
-        });
+        // Check if the column does not exist before adding it
+        if (!Schema::hasColumn('jobs', 'user_id')) {
+            Schema::table('jobs', function (Blueprint $table) {
+                $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('job_type_id');
+            });
+        }
     }
 
     /**
