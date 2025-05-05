@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
+    
     public function jobType(){
         return $this->belongsTo(JobType::class);
     }
@@ -13,5 +14,8 @@ class Job extends Model
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+    public function application(){
+        return $this->hasMany(JobApplication::class);
     }
 }
