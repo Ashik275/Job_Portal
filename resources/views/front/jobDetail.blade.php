@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"> <i class="fa fa-heart-o"
+                                        <a class="heart_mark " href="#" onclick="saveJob({{ $job->id }})"> <i class="fa fa-heart-o"
                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -64,8 +64,14 @@
                             </div>
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
 
+
+                                @if (Auth::check())
+                                    <a href="#" onclick="saveJob({{ $job->id }})"
+                                        class="btn btn-secondary">Save</a>
+                                @else
+                                    <a href="javascript:void()" class="btn btn-secondary disabled">Login to Save Job</a>
+                                @endif
                                 @if (Auth::check())
                                     <a href="#" onclick="applyJob({{ $job->id }})"
                                         class="btn btn-primary">Apply</a>
@@ -121,7 +127,7 @@
         function applyJob(id) {
             if (confirm("Are you sure you want to apply on this job?")) {
                 $.ajax({
-                    url: '{{ route("applyJob") }}',
+                    url: '{{ route('applyJob') }}',
                     type: 'post',
                     data: {
                         id: id
@@ -130,10 +136,26 @@
                     success: function(response) {
                         console.log(response);
                         alert(response.message);
-                        window.location.href= "{{url()->current()}}";
+                        window.location.href = "{{ url()->current() }}";
                     }
                 });
             }
+        }
+
+        function saveJob(id) {
+            $.ajax({
+                url: '{{ route('saveJob') }}',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    alert(response.message);
+                    window.location.href = "{{ url()->current() }}";
+                }
+            });
         }
     </script>
 @endsection

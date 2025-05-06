@@ -10019,4 +10019,9 @@ footer .nav-link {
 .icon-handshake:before {
   content: '';
 }
+
+.saved-job{
+  color:#00D363 !important;
+  color: #fff !important;
+}
 /* '' */
